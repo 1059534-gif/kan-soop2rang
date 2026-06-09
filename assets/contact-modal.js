@@ -40,6 +40,8 @@
     }
   };
 
+  let lockedScrollY = 0;
+  
   function language() {
     const lang = localStorage.getItem("siteLang") || document.documentElement.lang || "ko";
     return lang.startsWith("en") ? "en" : "ko";
@@ -105,6 +107,10 @@
     ensureModal();
     render();
     document.querySelector("#contactModal").setAttribute("aria-hidden", "false");
+    lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.paddingRight = scrollbarWidth ? `${scrollbarWidth}px` : "";
     document.body.classList.add("modal-open");
   }
 
@@ -113,6 +119,9 @@
     if (!modal) return;
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
+    document.body.style.top = "";
+    document.body.style.paddingRight = "";
+    window.scrollTo(0, lockedScrollY);
   }
 
   function toggleLanguage() {
