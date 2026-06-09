@@ -423,7 +423,11 @@ body.page-home .link-button + .link-button[aria-disabled="true"] {
 }
 
 body.modal-open {
-  overflow: auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden;
 }
 
 .contact-modal {
