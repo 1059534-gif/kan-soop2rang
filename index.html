@@ -2113,6 +2113,30 @@
         font-size: clamp(18px, 4.6vw, 26px) !important;
       }
     }
+
+    :root {
+      --topbar-offset: 82px;
+    }
+
+    body,
+    body.page-home {
+      padding-top: var(--topbar-offset) !important;
+    }
+
+    .topbar,
+    body.page-home .topbar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 80 !important;
+    }
+
+    @media (max-width: 660px) {
+      :root {
+        --topbar-offset: 59px;
+      }
+    }
   </style>
   <link rel="stylesheet" href="assets/brisbane-theme.css">
 </head>
@@ -2439,14 +2463,17 @@
       const leadLine = document.querySelector(".hero-line-lead");
       if (!heroCopy || !leadLine) return;
 
-      heroCopy.style.fontSize = "";
-      const available = heroCopy.clientWidth;
-      const required = leadLine.scrollWidth;
-      if (required <= available) return;
+      heroCopy.style.removeProperty("font-size");
+      const available = Math.max(1, heroCopy.clientWidth - 4);
+      let size = parseFloat(window.getComputedStyle(heroCopy).fontSize);
+      const minSize = 7;
 
-      const currentSize = parseFloat(window.getComputedStyle(heroCopy).fontSize);
-      const nextSize = Math.max(11, currentSize * (available / required));
-      heroCopy.style.fontSize = `${nextSize}px`;
+      for (let index = 0; index < 6; index += 1) {
+        const required = leadLine.scrollWidth;
+        if (required <= available || size <= minSize) break;
+        size = Math.max(minSize, size * (available / required) * 0.97);
+        heroCopy.style.setProperty("font-size", `${size}px`, "important");
+      }
     }
 
     function renderFilters() {

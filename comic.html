@@ -1193,6 +1193,30 @@
     body.page-comic #works {
       border-top: 0;
     }
+
+    :root {
+      --topbar-offset: 82px;
+    }
+
+    body,
+    body.page-comic {
+      padding-top: var(--topbar-offset) !important;
+    }
+
+    .topbar,
+    body.page-comic .topbar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 80 !important;
+    }
+
+    @media (max-width: 660px) {
+      :root {
+        --topbar-offset: 59px;
+      }
+    }
   </style>
   <link rel="stylesheet" href="assets/brisbane-theme.css">
 </head>
@@ -1232,7 +1256,7 @@
         description: "사람들의 진심이 ‘해시태그’로 보이게 된 전교 1등 연이솔. 그런데 첫사랑 성신우가 자신에게 ‘#첫사랑이었던_쓰레기’라는 태그를 달았다?! 이유도 모른 채 버림받았던 상처가 되살아나고, 이솔은 신우를 싫어하는 백설과 손잡는다. 복수일까, 미련일까. 이번엔 누가 먼저 상처받을까?",
         banner: "assets/my-first-love-banner.jpg",
         merchLinks: [
-          { label: "한국", country: "한국", platform: "네이버웹툰프렌즈", url: "https://brand.naver.com/webtoonfriends/search?q=%ED%95%B4%EC%8B%9C%ED%83%9C%EA%B7%B8%EB%8A%94%20%EC%B2%AB%EC%82%AC%EB%9E%91" }
+          { label: "웹툰 프렌즈", country: "한국", platform: "네이버웹툰프렌즈", url: "https://brand.naver.com/webtoonfriends/search?q=%ED%95%B4%EC%8B%9C%ED%83%9C%EA%B7%B8%EB%8A%94%20%EC%B2%AB%EC%82%AC%EB%9E%91" }
         ],
         cover: "linear-gradient(135deg, #d94a3a, #f2c45a)",
         readLinks: [
@@ -1299,8 +1323,8 @@
         description: "중학생 시절 짝사랑했던 선배 기훈을 우연히 대학에서 다시 만난 법학과 신입생 이연. 기훈의 제안으로 함께 떠난 여행에서 두 사람은 '홍실 퀘스트'라는 기묘한 미션을 받게 된다. '홍실 퀘스트 제 1 라운드, 볼 뽀뽀 5회!' 운명의 상대에 대해 회의적이던 이연이 홍실의 전설에 휩싸이며, 두 사람의 관계는 예상치 못한 방향으로 흘러가게 되는데...!",
         banner: "assets/red-thread-quest-banner.jpg",
         merchLinks: [
-          { label: "한국", country: "한국", platform: "J-MEE Shop", url: "https://j-meeshop.com/category/%ED%99%8D%EC%8B%A4%ED%80%98%EC%8A%A4%ED%8A%B8/296/" },
-          { label: "Global", country: "글로벌", platform: "J-MEE Shop EN", url: "https://en.j-meeshop.com/category/red-thread-quest/296/" }
+          { label: "제이미샵", country: "한국", platform: "J-MEE Shop", url: "https://j-meeshop.com/category/%ED%99%8D%EC%8B%A4%ED%80%98%EC%8A%A4%ED%8A%B8/296/" },
+          { label: "J-MEESHOP", country: "글로벌", platform: "J-MEE Shop EN", url: "https://en.j-meeshop.com/category/red-thread-quest/296/" }
         ],
         cover: "linear-gradient(135deg, #d94a3a, #0f9189)",
         readLinks: [
@@ -1376,7 +1400,7 @@
 
     const platformNames = {
       "네이버웹툰": "Naver Webtoon",
-      "네이버웹툰프렌즈": "Naver Webtoon Friends",
+      "웹툰프렌즈": "Naver Webtoon Friends",
       "동만만화": "Dongman Manhua",
       "야후": "ebookjapan",
       "봄툰": "Bomtoon",
