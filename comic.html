@@ -1204,7 +1204,6 @@
         <span>KAN / Soop2rang</span>
       </a>
       <nav class="nav" aria-label="주요 메뉴">
-        <a href="index.html">Home</a>
         <a href="#" data-contact-modal>SNS / Contact</a>
       </nav>
       <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language">English</button>
@@ -1389,15 +1388,15 @@
     const translations = {
       ko: {
         back: "← 돌아가기",
-        readLinks: "연재 링크",
-        merchLinks: "굿즈 구매",
+        readLinks: "공식 연재 링크",
+        merchLinks: "공식 굿즈",
         goodsSoon: "굿즈 준비중",
         langToggle: "English"
       },
       en: {
         back: "← Back",
-        readLinks: "Read Worldwide",
-        merchLinks: "Buy Goods",
+        readLinks: "Read Officially Worldwide",
+        merchLinks: "Official Goods",
         goodsSoon: "Goods Soon",
         langToggle: "한국어"
       }
@@ -1432,6 +1431,11 @@
       "완결": { en: "Completed" }
     };
 
+    const formatNames = {
+      "장편": { en: "Long-form" },
+      "단편": { en: "Short-form" }
+    };
+
     function text(key) {
       return translations[currentLang][key];
     }
@@ -1460,6 +1464,11 @@
 
     function statusText(status) {
       return currentLang === "en" ? (statusNames[status]?.en || status) : status;
+    }
+
+    function formatText(work) {
+      const format = work.categories.find((category) => category === "장편" || category === "단편") || "장편";
+      return currentLang === "en" ? (formatNames[format]?.en || format) : format;
     }
 
     function workPlatformText(work) {
@@ -1554,8 +1563,8 @@
           <div class="comic-hero">
             <img class="comic-banner" src="${work.banner}" alt="${workTitle(work)} 배너">
             <div class="comic-info">
-              <p class="section-kicker">${aliasText(work.alias)} · ${statusText(work.status)} · ${workPlatformText(work)}</p>
-              <h1>${workTitle(work)}</h1>
+              <p class="section-kicker">${aliasText(work.alias)} · ${statusText(work.status)} · ${formatText(work)}</p>
+              <h1 class="comic-title">${workTitle(work)}</h1>
               <p>${workDescription(work)}</p>
             </div>
           </div>
@@ -1597,7 +1606,25 @@
           </div>
         </div>
       `;
+      requestAnimationFrame(fitComicTitle);
     }
+
+    function fitComicTitle() {
+      const title = document.querySelector(".comic-title");
+      if (!title) return;
+
+      title.style.fontSize = "";
+      const available = title.parentElement.clientWidth;
+      const required = title.scrollWidth;
+      if (required <= available) return;
+
+      const currentSize = parseFloat(window.getComputedStyle(title).fontSize);
+      const nextSize = Math.max(14, currentSize * (available / required));
+      title.style.fontSize = `${nextSize}px`;
+    }
+
+    window.addEventListener("resize", fitComicTitle);
+    if (document.fonts) document.fonts.ready.then(fitComicTitle);
 
     renderComicDetail();
     setLanguage(currentLang);

@@ -146,6 +146,7 @@ body.page-home .hero p {
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0;
+  white-space: pre-line;
   word-break: keep-all;
 }
 
@@ -569,6 +570,7 @@ body.modal-open {
 }
 
 .region-link {
+  position: relative;
   display: grid;
   grid-template-columns: clamp(56px, 5vw, 76px) minmax(0, 1fr);
   align-items: center;
@@ -579,6 +581,33 @@ body.modal-open {
   border-radius: 5px;
   background: #f4f3f1;
   box-shadow: 0 5px 15px rgba(90, 50, 40, .15), 0 4px 8px rgba(80, 40, 30, .1);
+  overflow: hidden;
+  transition: color .24s ease, box-shadow .24s ease, transform .24s ease;
+}
+
+.region-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #333333;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .32s ease;
+  z-index: 0;
+}
+
+.region-link > * {
+  position: relative;
+  z-index: 1;
+}
+
+.region-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 24px rgba(70, 45, 35, .2), 0 5px 10px rgba(80, 40, 30, .12);
+}
+
+.region-link:hover::before {
+  transform: scaleX(1);
 }
 
 .platform-logo-slot {
@@ -613,12 +642,22 @@ body.modal-open {
   font-size: clamp(16px, 1.1vw, 21px);
   font-weight: 700;
   line-height: 1.4;
+  transition: color .24s ease;
 }
 
 .region-link span {
   color: #aaaaaa;
   font-size: clamp(14px, .95vw, 18px);
   font-weight: 400;
+  transition: color .24s ease;
+}
+
+.region-link:hover strong {
+  color: #ffffff;
+}
+
+.region-link:hover .region-link-text span {
+  color: #e8e8e8;
 }
 
 .aliases-grid {
@@ -725,6 +764,7 @@ body.page-comic #works {
   font-size: clamp(24px, 2vw, 38px);
   font-weight: 700;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .comic-info p {
@@ -816,16 +856,22 @@ body.page-home .footer {
 @media (max-width: 660px) {
   .topbar,
   body.page-home .topbar {
-    grid-template-columns: minmax(116px, 1fr) auto minmax(56px, 1fr);
-    align-items: center;
-    gap: 10px;
-    padding: 18px 16px;
+    display: grid !important;
+    grid-template-columns: minmax(116px, 1fr) auto minmax(56px, 1fr) !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    padding: 18px 16px !important;
   }
 
   .brand,
   body.page-home .brand {
+    grid-column: auto !important;
     gap: 8px;
     font-size: clamp(11px, 2.7vw, 13px);
+    justify-self: start;
+    min-width: 0;
+    white-space: nowrap;
   }
 
   .brand-mark,
@@ -837,7 +883,11 @@ body.page-home .footer {
 
   .nav,
   body.page-home .nav {
+    grid-column: auto !important;
     gap: 0;
+    justify-self: center;
+    min-width: 0;
+    white-space: nowrap;
   }
 
   .nav a,
@@ -849,7 +899,10 @@ body.page-home .footer {
 
   .lang-toggle,
   body.page-home .lang-toggle {
+    grid-column: auto !important;
+    justify-self: end;
     min-width: 56px;
+    white-space: nowrap;
   }
 
   .hero p,
@@ -871,5 +924,31 @@ body.page-home .footer {
   body.page-home .meta {
     justify-content: flex-start;
     margin-top: 5px;
+  }
+}
+
+.hero p,
+body.page-home .hero p {
+  width: min(1680px, calc(100vw - 96px)) !important;
+  max-width: none !important;
+  font-size: clamp(20px, 1.25vw, 26px) !important;
+  line-height: 1.35 !important;
+  white-space: normal !important;
+}
+
+.hero-line {
+  display: block;
+}
+
+.hero-line-lead {
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .hero p,
+  body.page-home .hero p {
+    width: calc(100vw - 40px) !important;
+    max-width: none !important;
+    font-size: clamp(18px, 4.6vw, 26px) !important;
   }
 }

@@ -696,12 +696,16 @@
 
     @media (max-width: 660px) {
       .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: minmax(116px, 1fr) auto minmax(56px, 1fr);
+        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+        padding: 18px 16px;
       }
 
       .nav {
-        justify-content: flex-start;
+        justify-content: center;
       }
 
       .hero-art {
@@ -1407,7 +1411,7 @@
 
     @media (max-width: 620px) {
       body.page-home .topbar {
-        grid-template-columns: 1fr auto;
+        grid-template-columns: minmax(116px, 1fr) auto minmax(56px, 1fr);
       }
 
       body.page-home .brand,
@@ -1417,8 +1421,8 @@
       }
 
       body.page-home .nav {
-        grid-column: 1 / -1;
-        justify-self: start;
+        grid-column: auto;
+        justify-self: center;
       }
 
       body.page-home .works-grid {
@@ -1596,13 +1600,16 @@
 
     @media (max-width: 660px) {
       body.page-home .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 20px 24px;
+        display: grid;
+        grid-template-columns: minmax(116px, 1fr) auto minmax(56px, 1fr);
+        align-items: center;
+        flex-direction: row;
+        gap: 10px;
+        padding: 18px 16px;
       }
 
       body.page-home .nav {
-        justify-content: flex-start;
+        justify-content: center;
       }
 
       body.page-home .hero h1 {
@@ -2034,9 +2041,36 @@
     @media (max-width: 660px) {
       .topbar,
       body.page-home .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 24px 20px;
+        display: grid !important;
+        grid-template-columns: minmax(116px, 1fr) auto minmax(56px, 1fr) !important;
+        align-items: center !important;
+        flex-direction: row !important;
+        gap: 10px !important;
+        padding: 18px 16px !important;
+      }
+
+      .brand,
+      body.page-home .brand {
+        grid-column: auto !important;
+        justify-self: start;
+        min-width: 0;
+        white-space: nowrap;
+      }
+
+      .nav,
+      body.page-home .nav {
+        grid-column: auto !important;
+        justify-self: center;
+        min-width: 0;
+        white-space: nowrap;
+      }
+
+      .lang-toggle,
+      body.page-home .lang-toggle {
+        grid-column: auto !important;
+        justify-self: end;
+        min-width: 56px;
+        white-space: nowrap;
       }
 
       .works-grid,
@@ -2051,6 +2085,32 @@
       body.page-home .meta {
         justify-content: flex-start;
         margin-top: 5px;
+      }
+    }
+
+    .hero p,
+    body.page-home .hero p {
+      width: min(1680px, calc(100vw - 96px)) !important;
+      max-width: none !important;
+      font-size: clamp(20px, 1.25vw, 26px) !important;
+      line-height: 1.35 !important;
+      white-space: normal !important;
+    }
+
+    .hero-line {
+      display: block;
+    }
+
+    .hero-line-lead {
+      white-space: nowrap;
+    }
+
+    @media (max-width: 760px) {
+      .hero p,
+      body.page-home .hero p {
+        width: calc(100vw - 40px) !important;
+        max-width: none !important;
+        font-size: clamp(18px, 4.6vw, 26px) !important;
       }
     }
   </style>
@@ -2073,7 +2133,10 @@
       <section class="hero" aria-labelledby="hero-title">
         <div>
           <h1 id="hero-title">KAN / Soop2rang Official Links</h1>
-          <p>Read my works worldwide and find official goods here.</p>
+          <p class="hero-copy">
+            <span class="hero-line hero-line-lead">안녕하세요, 웹툰작가 KAN / 숲이랑입니다. 🍀</span>
+            <span class="hero-line">아래 작품별 배너를 클릭해 공식 연재처와 굿즈 링크를 확인해 주세요.</span>
+          </p>
           <div class="hero-actions"></div>
         </div>
         <div class="hero-art" aria-label="만화 패널 스타일의 장식 이미지">
@@ -2280,6 +2343,20 @@
       "완결": { en: "Completed" }
     };
 
+    const workFormats = {
+      "my-first-love": "장편",
+      "red-thread-quest": "장편",
+      "love-derailed": "단편",
+      "emperor-hunt": "장편",
+      "summer-nights-dream": "장편",
+      "black-haired-beasts-love": "단편"
+    };
+
+    const formatNames = {
+      "장편": { en: "Long-form" },
+      "단편": { en: "Short-form" }
+    };
+
     function workTitle(work) {
       return currentLang === "en" ? (localizedWorks[work.id]?.en || work.title) : work.title;
     }
@@ -2290,6 +2367,11 @@
 
     function statusText(status) {
       return currentLang === "en" ? (statusNames[status]?.en || status) : status;
+    }
+
+    function formatText(work) {
+      const format = workFormats[work.id] || "장편";
+      return currentLang === "en" ? (formatNames[format]?.en || format) : format;
     }
 
     function workPlatformText(work) {
@@ -2307,7 +2389,7 @@
         viewWork: "작품 보기",
         buyGoods: "굿즈 구매",
         goodsSoon: "굿즈 준비중",
-        heroCopy: "작품별 공식 연재처와 굿즈 정보를 한곳에서 확인하세요.",
+        heroCopy: "안녕하세요, 웹툰작가 KAN / 숲이랑입니다. 🍀\n아래 작품별 배너를 클릭해 공식 연재처와 굿즈 링크를 확인해 주세요.",
         langToggle: "English"
       },
       en: {
@@ -2315,7 +2397,7 @@
         viewWork: "View Work",
         buyGoods: "Buy Goods",
         goodsSoon: "Goods Soon",
-        heroCopy: "Find official links, goods, and updates for each work.",
+        heroCopy: "Hello, this is webtoon creator KAN / Soop2rang. 🍀\nClick the banner for each work below to find official platforms and goods links.",
         langToggle: "한국어"
       }
     };
@@ -2334,10 +2416,37 @@
       });
       const toggle = document.querySelector("[data-lang-toggle]");
       if (toggle) toggle.textContent = translations[lang].langToggle;
-      const heroCopy = document.querySelector("#hero-title + p");
-      if (heroCopy) heroCopy.textContent = translations[lang].heroCopy;
+      renderHeroCopy();
       renderWorks();
       if (!options.silent) window.dispatchEvent(new CustomEvent("site-language-change"));
+    }
+
+    function renderHeroCopy() {
+      const heroCopy = document.querySelector(".hero-copy");
+      if (!heroCopy) return;
+      heroCopy.innerHTML = "";
+      translations[currentLang].heroCopy.split("\n").forEach((line, index) => {
+        const span = document.createElement("span");
+        span.className = index === 0 ? "hero-line hero-line-lead" : "hero-line";
+        span.textContent = line;
+        heroCopy.appendChild(span);
+      });
+      requestAnimationFrame(fitHeroLeadLine);
+    }
+
+    function fitHeroLeadLine() {
+      const heroCopy = document.querySelector(".hero-copy");
+      const leadLine = document.querySelector(".hero-line-lead");
+      if (!heroCopy || !leadLine) return;
+
+      heroCopy.style.fontSize = "";
+      const available = heroCopy.clientWidth;
+      const required = leadLine.scrollWidth;
+      if (required <= available) return;
+
+      const currentSize = parseFloat(window.getComputedStyle(heroCopy).fontSize);
+      const nextSize = Math.max(11, currentSize * (available / required));
+      heroCopy.style.fontSize = `${nextSize}px`;
     }
 
     function renderFilters() {
@@ -2369,7 +2478,7 @@
               <span>·</span>
               <span>${statusText(work.status)}</span>
               <span>·</span>
-              <span>${workPlatformText(work)}</span>
+              <span>${formatText(work)}</span>
             </div>
             <p>${work.description}</p>
           </div>
@@ -2400,6 +2509,9 @@
       const next = localStorage.getItem("siteLang") || currentLang;
       if (next !== currentLang) setLanguage(next, { silent: true });
     });
+
+    window.addEventListener("resize", fitHeroLeadLine);
+    if (document.fonts) document.fonts.ready.then(fitHeroLeadLine);
 
     renderFilters();
     renderWorks();
